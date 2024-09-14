@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
 // ใช้ Environment Variable สำหรับ MongoDB URI
-const uri = process.env.MONGODB_URI || 'mongodb+srv://your_username:your_password@cluster0.your_cluster.mongodb.net/your_database?retryWrites=true&w=majority';
+const uri = process.env.MONGODB_URI || 'mongodb+srv://suriyabarisi:ZkNjxLxfhx4nTnsG@cluster0.yhgme.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 const client = new MongoClient(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
