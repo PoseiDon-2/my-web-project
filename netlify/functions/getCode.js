@@ -12,7 +12,7 @@ const client = new MongoClient(uri, {
 exports.handler = async function(event, context) {
     if (event.httpMethod === 'GET') {
         const studentId = event.queryStringParameters.studentId;
-        const type = event.queryStringParameters.type; // type can be 'individual' or 'group'
+        const type = event.queryStringParameters.type;
 
         console.log('Student ID:', studentId);
 
@@ -21,8 +21,8 @@ exports.handler = async function(event, context) {
             await client.connect();
             console.log('Connected to MongoDB');
 
-            const database = client.db('assigment_db'); // แทนที่ด้วยชื่อฐานข้อมูลของคุณ
-            const collection = database.collection('assignment_codes'); // แทนที่ด้วยชื่อ collection ของคุณ
+            const database = client.db('assigment_db');
+            const collection = database.collection('assignment_codes');
 
             const result = await collection.findOne({ studentId: studentId });
             console.log('Query Result:', result);
@@ -33,34 +33,26 @@ exports.handler = async function(event, context) {
                 if (type === 'individual') {
                     return {
                         statusCode: 200,
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ code: result.individual_code }),
                     };
                 } else if (type === 'group') {
                     return {
                         statusCode: 200,
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ code: result.group_code }),
                     };
                 } else {
                     return {
                         statusCode: 400,
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ message: 'Invalid type parameter' }),
                     };
                 }
             } else {
                 return {
                     statusCode: 404,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: 'No code found' }),
                 };
             }
@@ -68,18 +60,14 @@ exports.handler = async function(event, context) {
             console.error('Error:', error);
             return {
                 statusCode: 500,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: 'Internal Server Error', error: error.message }),
             };
         }
     } else {
         return {
             statusCode: 405,
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: 'Method Not Allowed' }),
         };
     }
