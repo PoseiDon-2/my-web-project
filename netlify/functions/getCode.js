@@ -1,5 +1,6 @@
 const { MongoClient } = require('mongodb');
 
+// ใช้ Environment Variable สำหรับ MongoDB URI
 const uri = process.env.MONGODB_URI || 'mongodb+srv://suriyabarisi:<db_password>@cluster0.yhgme.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 const client = new MongoClient(uri);
 
@@ -9,15 +10,14 @@ exports.handler = async function(event, context) {
         const type = event.queryStringParameters.type; // type can be 'individual' or 'group'
 
         console.log('Student ID:', studentId);
-        console.log('Type:', type);
 
         try {
             console.log('Connecting to MongoDB...');
             await client.connect();
             console.log('Connected to MongoDB');
 
-            const database = client.db('assignment_db');
-            const collection = database.collection('assignment_codes');
+            const database = client.db('assigment_db'); // แทนที่ด้วยชื่อฐานข้อมูลของคุณ
+            const collection = database.collection('assignment_codes'); // แทนที่ด้วยชื่อ collection ของคุณ
 
             const result = await collection.findOne({ studentId: studentId });
             console.log('Query Result:', result);
