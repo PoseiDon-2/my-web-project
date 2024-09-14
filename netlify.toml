@@ -7,7 +7,3 @@
   to = "/.netlify/functions/:splat"
   status = 200
 
-[dev]
-  command = "npm start"   # คำสั่งนี้จะใช้สำหรับเรียกใช้ในโหมด local dev
-  targetPort = 8888
-  port = 8888

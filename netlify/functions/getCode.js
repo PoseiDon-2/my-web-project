@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
 // เชื่อมต่อกับ MongoDB
-const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017'; // ใช้ environment variable สำหรับ MongoDB URI
+const uri = process.env.MONGODB_URI || 'mongodb+srv://suriyabarisi:<db_password>@cluster0.yhgme.mongodb.net/'; // ใช้ environment variable สำหรับ MongoDB URI
 const client = new MongoClient(uri);
 
 exports.handler = async function(event, context) {
