@@ -28,12 +28,18 @@ exports.handler = async function(event, context) {
                 if (type === 'individual') {
                     return {
                         statusCode: 200,
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
                         body: JSON.stringify({ code: result.individual_code }),
                     };
                 } else if (type === 'group') {
                     return {
                         statusCode: 200,
-                        body: JSON.stringify({ code: result.group_code }),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ code: result.individual_code }),
                     };
                 } else {
                     return {
