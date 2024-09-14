@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Code Retrieval</title>
+</head>
+<body>
+    <h1>Retrieve Assignment Code</h1>
+    <form id="codeForm">
+        <label for="studentId">Student ID:</label>
+        <input type="text" id="studentId" name="studentId" required>
+        <button type="submit">Get Code</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('codeForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const studentId = document.getElementById('studentId').value;
+            const response = await fetch(`/api/getCode?studentId=${studentId}`);
+            const resultDiv = document.getElementById('result');
+
+            if (response.ok) {
+                const data = await response.json();
+                resultDiv.innerHTML = `
+                    <p>Individual Assignment Code: ${data.individual_code}</p>
+                    <p>Group Assignment Code: ${data.group_code}</p>
+                `;
+            } else {
+                resultDiv.textContent = 'No code found for this student ID.';
+            }
+        });
+    </script>
+</body>
+</html>
