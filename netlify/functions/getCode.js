@@ -1,13 +1,12 @@
 const { MongoClient } = require('mongodb');
 
-// ใช้ Environment Variable สำหรับ MongoDB URI
-const uri = process.env.MONGODB_URI || 'mongodb+srv://suriyabarisi:ZkNjxLxfhx4nTnsG@cluster0.yhgme.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const uri = process.env.MONGODB_URI || 'mongodb+srv://your_username:your_password@cluster0.your_cluster.mongodb.net/your_database?retryWrites=true&w=majority';
 const client = new MongoClient(uri);
 
 exports.handler = async function(event, context) {
     if (event.httpMethod === 'GET') {
         const studentId = event.queryStringParameters.studentId;
-        const type = event.queryStringParameters.type; // type can be 'individual' or 'group'
+        const type = event.queryStringParameters.type;
 
         console.log('Student ID:', studentId);
 
@@ -16,8 +15,8 @@ exports.handler = async function(event, context) {
             await client.connect();
             console.log('Connected to MongoDB');
 
-            const database = client.db('assigment_db'); // แทนที่ด้วยชื่อฐานข้อมูลของคุณ
-            const collection = database.collection('assignment_codes'); // แทนที่ด้วยชื่อ collection ของคุณ
+            const database = client.db('assigment_db'); // ชื่อฐานข้อมูล
+            const collection = database.collection('assignment_codes'); // ชื่อ collection
 
             const result = await collection.findOne({ studentId: studentId });
             console.log('Query Result:', result);
@@ -39,17 +38,23 @@ exports.handler = async function(event, context) {
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ code: result.individual_code }),
+                        body: JSON.stringify({ code: result.group_code }),
                     };
                 } else {
                     return {
                         statusCode: 400,
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
                         body: JSON.stringify({ message: 'Invalid type parameter' }),
                     };
                 }
             } else {
                 return {
                     statusCode: 404,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({ message: 'No code found' }),
                 };
             }
@@ -57,12 +62,18 @@ exports.handler = async function(event, context) {
             console.error('Error:', error);
             return {
                 statusCode: 500,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({ message: 'Internal Server Error', error: error.message }),
             };
         }
     } else {
         return {
             statusCode: 405,
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({ message: 'Method Not Allowed' }),
         };
     }
