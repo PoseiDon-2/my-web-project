@@ -44,9 +44,12 @@
         .form-group button:hover {
             background-color: #0056b3;
         }
-        .result {
+        .result, .status {
             margin-top: 20px;
             font-size: 16px;
+        }
+        .status {
+            color: #007bff;
         }
     </style>
 </head>
@@ -69,6 +72,7 @@
                 <button type="submit">Get Code</button>
             </div>
         </form>
+        <div id="status" class="status"></div>
         <div id="result" class="result"></div>
     </div>
     <script>
@@ -77,22 +81,31 @@
 
             const studentId = document.getElementById('studentId').value;
             const type = document.getElementById('type').value;
-            
+            const statusElement = document.getElementById('status');
+            const resultElement = document.getElementById('result');
+
+            // แสดงข้อความสถานะ "กำลังค้นหา..."
+            statusElement.textContent = 'Searching...';
+            resultElement.textContent = '';
+
             try {
                 const response = await fetch(`/.netlify/functions/getCode?studentId=${studentId}&type=${type}`);
                 const data = await response.json();
 
                 if (response.ok) {
-                    document.getElementById('result').innerHTML = `
+                    statusElement.textContent = '';
+                    resultElement.innerHTML = `
                         <p>Assignment Code: ${data.code}</p>
                     `;
                 } else {
-                    document.getElementById('result').innerHTML = `
+                    statusElement.textContent = '';
+                    resultElement.innerHTML = `
                         <p>${data.message}</p>
                     `;
                 }
             } catch (error) {
-                document.getElementById('result').innerHTML = `
+                statusElement.textContent = '';
+                resultElement.innerHTML = `
                     <p>Error: ${error.message}</p>
                 `;
             }
