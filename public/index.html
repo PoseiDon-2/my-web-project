@@ -5,59 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assignment Code Retrieval</title>
     <style>
+        /* Font from Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+
+        /* General styling */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            min-height: 100vh;
+            transition: background-color 0.3s ease-in-out;
         }
+
+        /* Container styling */
         .container {
             max-width: 400px;
             width: 100%;
             padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
         }
+        .container:hover {
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Form element styling */
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
         }
         .form-group input, .form-group select {
             width: 100%;
-            padding: 8px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
             box-sizing: border-box;
+            transition: border-color 0.3s ease;
         }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #1e90ff;
+            outline: none;
+        }
+
+        /* Button styling */
         .form-group button {
-            padding: 10px 15px;
+            width: 100%;
+            padding: 12px;
             border: none;
-            background-color: #007bff;
+            background-color: #1e90ff;
             color: white;
-            font-size: 16px;
+            font-size: 18px;
+            font-weight: 500;
+            border-radius: 6px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
         .form-group button:hover {
-            background-color: #0056b3;
+            background-color: #1c7ed6;
         }
-        .result {
-            margin-top: 20px;
+
+        /* Result and status styling */
+        .result, .status {
             font-size: 16px;
+            margin-top: 20px;
+            text-align: center;
         }
         .status {
-            margin-top: 10px;
-            font-size: 14px;
             color: #666;
+        }
+
+        /* Responsive styling */
+        @media screen and (max-width: 768px) {
+            .container {
+                max-width: 100%;
+                padding: 15px;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            body {
+                padding: 20px;
+            }
+            .container {
+                max-width: 100%;
+                padding: 10px;
+            }
+            .form-group button {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Retrieve Assignment Code</h1>
+        <h1 style="text-align:center; color:#1e90ff;">Retrieve Assignment Code</h1>
         <form id="codeForm">
             <div class="form-group">
                 <label for="studentId">Student ID:</label>
@@ -77,6 +129,7 @@
         <div id="status" class="status"></div>
         <div id="result" class="result"></div>
     </div>
+
     <script>
         document.getElementById('codeForm').addEventListener('submit', async function(event) {
             event.preventDefault();
